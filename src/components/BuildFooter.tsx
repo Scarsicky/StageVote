@@ -10,7 +10,7 @@ export default function BuildFooter() {
       borderTop: '1px solid #ddd',
       textAlign: 'center',
     }}>
-      SDG-Jukebox v{__APP_VERSION__} • build {time}
+      StageVote v{__APP_VERSION__} • build {time}
     </div>
   )
 }
