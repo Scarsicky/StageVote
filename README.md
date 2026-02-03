@@ -1,4 +1,4 @@
-# Gameshow – Live Voting Web App (Firebase + React PWA)
+# StageVote – Live Voting Web App (Firebase + React PWA)
 
 Gameshow is een real-time webapplicatie voor live evenementen zoals concerten, quizzen en interactieve shows. Publiek kan stemmen via hun telefoon, regie beheert stemrondes en een dirigent/spelleider kan live ingrijpen op de uitslag.
 De app is gebouwd als Progressive Web App (PWA) met Firebase als backend en is ontworpen voor situaties met veel gelijktijdige gebruikers (100–300+).
