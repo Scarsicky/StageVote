@@ -1,0 +1,209 @@
+html, body, #root { height: 100%; margin: 0; }
+body { overflow: hidden; }
+
+:root {
+  color-scheme: light dark;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  font-family: system-ui, sans-serif;
+}
+
+.container {
+  max-width: 840px;
+  margin: 0 auto;
+  padding: 16px;
+}
+
+button {
+  font-size: 1.05rem;
+  padding: 10px 14px;
+  border-radius: 12px;
+  border: none;
+  cursor: pointer;
+}
+
+.card {
+  border: 1px solid #ddd;
+  border-radius: 14px;
+  padding: 16px;
+  margin-bottom: 12px;
+}
+
+.row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.small {
+  opacity: .8;
+  font-size: .9rem;
+}
+
+.bar {
+  height: 14px;
+  border-radius: 999px;
+  background: #e8e8e8;
+  overflow: hidden;
+}
+
+.bar>div {
+  height: 100%;
+  background: linear-gradient(90deg, #888, #333);
+}
+
+input[type="number"],
+input[type="email"],
+input[type="password"] {
+  padding: 8px 10px;
+  border-radius: 8px;
+  border: 1px solid #ccc;
+}
+
+/* Display (beamer) */
+.display-root {
+  width: 100vw;
+  margin-left: calc(50% - 50vw);
+}
+
+.display-root {
+  width: 100vw;
+  min-height: 100vh;
+  margin-left: calc(50% - 50vw);
+  background: #0b0b0b;
+  color: #fff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 32px;
+  box-sizing: border-box;
+  overflow: hidden;
+}
+
+/* 16:9 beamer viewport
+.display-viewport {
+  width: 100%;
+  height: 100%;
+  margin: 0;
+  background: #000;
+  overflow: hidden;
+  position: fixed;
+  inset: 0;
+}
+
+/* 16:9 scene, altijd gecentreerd en geschaald
+.display-scene {
+  width: 1920px;
+  height: 1080px;
+
+  position: absolute;
+  left: 0%;
+  top: 0%;
+
+  /* schaal zodat het past binnen viewport
+  --scale: min(calc(100vw / 1920), calc(100vh / 1080));
+
+  transform: translate(-50%, -50%) scale(var(--scale));
+  transform-origin: center center;
+}*/
+
+.display-grid {
+  width: min(1800px, 100%);
+  display: grid;
+  grid-template-columns: 36% 64%;
+  gap: 24px;
+  height: 100%;
+}
+
+.display-options {
+  margin-top: 18px;
+  width: 100%;
+  max-width: 900px;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px 18px;
+}
+
+.display-option {
+  padding: 10px 12px;
+  border-radius: 14px;
+  background: #1a1a1a;
+  border: 1px solid #2a2a2a;
+  font-size: 1.2rem;
+  text-align: left;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.panel {
+  background: #121212;
+  border-radius: 20px;
+  padding: 24px;
+  border: 1px solid #222;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.panel.qr img {
+  width: 100%;
+  max-width: 520px;
+  height: auto;
+  border-radius: 12px;
+  background: #fff;
+}
+
+.caption {
+  margin-top: 12px;
+  opacity: .8;
+  font-size: 1.1rem;
+}
+
+.center {
+  text-align: center;
+  width: 100%;
+}
+
+.headline {
+  font-size: 3rem;
+  font-weight: 700;
+  margin-bottom: 8px;
+}
+
+.massive {
+  font-size: 10rem;
+  line-height: 0.9;
+  font-weight: 800;
+  letter-spacing: -0.02em;
+}
+
+.winner {
+  font-size: 4rem;
+  font-weight: 800;
+  margin: 12px 0 6px;
+}
+
+.bar.large {
+  height: 24px;
+  margin: 8px auto;
+  max-width: 720px;
+}
+
+.bar.large>div {
+  background: linear-gradient(90deg, #24c, #09f);
+}
+
+.subtle {
+  opacity: .8;
+  margin-top: 8px;
+  font-size: 1.1rem;
+}

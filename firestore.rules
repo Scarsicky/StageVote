@@ -1,0 +1,64 @@
+rules_version = '2';
+service cloud.firestore {
+match /databases/{database}/documents {
+
+
+function isAdmin() {
+return request.auth != null &&
+exists(/databases/$(database)/documents/admins/$(request.auth.uid));
+}
+
+
+match /events/{eventId} {
+allow read: if true;
+// Alleen admin mag eventsettings aanpassen
+allow write: if isAdmin();
+
+
+match /options/{optionId} {
+allow read: if true;
+// Alleen admin mag opties beheren
+allow create, update, delete: if isAdmin();
+}
+
+
+match /rounds/{roundId} {
+allow read: if true;
+// Alleen admin mag rondes starten/sluiten/winnaar zetten
+allow create, update, delete: if isAdmin();
+
+
+match /votes/{deviceId} {
+// Publiek mag exact 1 stem per device per ronde uitbrengen
+allow create: if
+  // only allowed fields
+  request.resource.data.keys().hasOnly(['optionId','createdAt']) &&
+  request.resource.data.optionId is string &&
+
+  // one vote per device per round
+  !exists(/databases/$(database)/documents/events/$(eventId)/rounds/$(roundId)/votes/$(deviceId)) &&
+
+  // round must be open
+  get(/databases/$(database)/documents/events/$(eventId)/rounds/$(roundId)).data.status == 'open' &&
+
+  // option must exist, be enabled, and not have won already
+  exists(/databases/$(database)/documents/events/$(eventId)/options/$(request.resource.data.optionId)) &&
+  get(/databases/$(database)/documents/events/$(eventId)/options/$(request.resource.data.optionId)).data.enabled == true &&
+  get(/databases/$(database)/documents/events/$(eventId)/options/$(request.resource.data.optionId)).data.hasWon == false &&
+
+  // round category must match option category
+  get(/databases/$(database)/documents/events/$(eventId)/options/$(request.resource.data.optionId)).data.categoryId
+  == get(/databases/$(database)/documents/events/$(eventId)/rounds/$(roundId)).data.categoryId;
+
+allow update, delete: if false;
+allow read: if false;
+
+// Alleen admins mogen stemmen inzien
+allow read: if isAdmin();
+allow delete: if isAdmin();
+allow update: if false;
+}
+}
+}
+}
+}
