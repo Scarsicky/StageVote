@@ -22,7 +22,7 @@ allow create, update, delete: if isAdmin();
 }
 
 match /conductors/{uid} {
-  allow read: if request.auth != null && request.auth.uid -- uid;
+  allow read: if request.auth != null && request.auth.uid == uid;
   allow write: if isAdmin();
 }
 
