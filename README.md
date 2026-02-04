@@ -55,8 +55,14 @@ src/
     Conductor.tsx
     Display.tsx
   components/
+    BuildFooter.tsx
   hooks/
+    useCountdown.ts
+    useDeviceId.ts
+    useEventData.ts
   lib/
+    converters.ts
+    firebase.ts
   App.tsx
   main.tsx
   styles.css
