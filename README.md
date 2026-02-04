@@ -44,6 +44,10 @@ De app is gebouwd als Progressive Web App (PWA) met Firebase als backend en is o
 
 ## Project Structuur
 ```
+public/
+  qr.png
+  index.html
+  404.html
 src/
   routes/
     Audience.tsx
@@ -53,9 +57,19 @@ src/
   components/
   hooks/
   lib/
+  App.tsx
+  main.tsx
+  styles.css
+  vite-env.d.ts
   types.ts
-functions/ (optioneel, nu niet gebruikt)
 firestore.rules
+firebase.json
+firestore.indexes.json
+index.html
+package.json
+package-lock.json
+tsconfig.json
+vite.config.js
 ```
 ## Rollen & Rechten
 |**Rol**|**Firestore collection**|**Wat mag**|
