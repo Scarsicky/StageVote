@@ -21,6 +21,10 @@ allow read: if true;
 allow create, update, delete: if isAdmin();
 }
 
+match /conductors/{uid} {
+  allow read: if request.auth != null && request.auth.uid -- uid;
+  allow write: if isAdmin();
+}
 
 match /rounds/{roundId} {
 allow read: if true;
