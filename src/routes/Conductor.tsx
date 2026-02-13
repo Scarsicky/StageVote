@@ -59,10 +59,6 @@ export default function Conductor() {
     setRound(null)
   }
 
-  useEffect(() => {
-    const ref = doc(db, `events/${EVENT_ID}/rounds/current`).withConverter(roundConverter)
-    return onSnapshot(ref, (snap) => setRound(snap.exists() ? snap.data() : null))
-  }, [])
 
   const vetoed = useMemo(() => new Set((round?.vetoedOptionIds ?? []) as string[]), [round?.vetoedOptionIds])
 
