@@ -46,8 +46,12 @@ const startedAt = round?.startedAt ?? null
 let pct = 100
 if (round?.status === 'open' && startedAt && endTs) {
   const durationTotal = endTs - startedAt
-  const elapsed = Date.now() - startedAt
-  pct = Math.max(0, Math.min(100, Math.round((1 - elapsed / durationTotal) * 100)))
+  if (durationTotal > 0) {
+    const elapsed = Date.now() - startedAt
+    pct = Math.max(0, Math.min(100, Math.round((1 - elapsed / durationTotal) * 100)))
+  } else {
+    pct = 0
+  }
 }
 
 

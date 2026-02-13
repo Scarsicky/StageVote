@@ -1,5 +1,8 @@
 export default function BuildFooter() {
-  const time = new Date(__BUILD_TIME__).toLocaleString()
+  const parsedBuildTime = new Date(__BUILD_TIME__)
+  const buildTimeLabel = Number.isNaN(parsedBuildTime.getTime())
+    ? __BUILD_TIME__
+    : parsedBuildTime.toLocaleString()
 
   return (
     <div style={{
@@ -10,7 +13,7 @@ export default function BuildFooter() {
       borderTop: '1px solid #ddd',
       textAlign: 'center',
     }}>
-      StageVote v{__APP_VERSION__} • build {time}
+      StageVote v{__APP_VERSION__} • build {buildTimeLabel}
     </div>
   )
 }
