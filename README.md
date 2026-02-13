@@ -9,7 +9,7 @@ De app is gebouwd als Progressive Web App (PWA) met Firebase als backend en is o
 
 - Stemmen tijdens open rondes
 - Bevestiging na stemmen
-- Na sluiten alleen de winnaar zichtbaar (geen stemverdeling)
+- Na sluiten een gerangschikte uitslaglijst (zonder stemaantallen)
 
 **REGIE (/regie)**
 
@@ -30,7 +30,7 @@ De app is gebouwd als Progressive Web App (PWA) met Firebase als backend en is o
 
 - QR-code naar stemapp
 - Ronde-status (wachten / stemmen / uitslag)
-- Winnaar van de ronde
+- Gerangschikte uitslag van de ronde (veto onderaan)
 - Totaal aantal stemmen
 
 ## Tech Stack
@@ -132,7 +132,7 @@ conductors/{uid}
 1. Regie start ronde --> `rounds/current` wordt open gezet
 2. Publiek stemt --> votes subcollection vult
 3. Dirigent kan veto's zetten --> `vetoedOptionIds`
-4. Regie sluit ronde: stemmen geteld, veto toegepast, winnar bepaald, totaal stemmen berekend
+4. Regie sluit ronde: stemmen geteld, veto toegepast, ranglijst bepaald en totaal stemmen berekend
 5. Beamer + publiek tonen resultaat
 
 ## CSV import

@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useRef, useState } from 'react'
+import { useEffect, useMemo, useState } from 'react'
 import { useLocation } from 'react-router-dom'
 import { doc, onSnapshot } from 'firebase/firestore'
 import { db } from '../lib/firebase'
@@ -51,9 +51,41 @@ if (round?.status === 'open' && startedAt && endTs) {
 }
 
 
-  // winnaar lookup
-  const winnerId = (round as any)?.winnerOptionId as string | undefined
-  const winner = winnerId ? options.find(o => o.id === winnerId) : undefined
+  const roundResults = useMemo(() => {
+    if (!round || round.status !== 'closed') return []
+    const categoryId = String((round as any).categoryId ?? '')
+    const totals = ((round as any).totals ?? {}) as Record<string, number>
+    const vetoed = new Set<string>(((round as any).vetoedOptionIds ?? []) as string[])
+
+    const inCategory = options.filter((o) => {
+      const c = (o as any).categoryId || o.section
+      return String(c) === categoryId
+    })
+
+    const allIds = new Set<string>([
+      ...Object.keys(totals),
+      ...inCategory.map((o) => o.id),
+      ...Array.from(vetoed),
+    ])
+
+    return Array.from(allIds)
+      .map((id) => {
+        const meta = options.find((o) => o.id === id)
+        return {
+          id,
+          title: meta?.title ?? id,
+          composer: meta?.composer ?? '',
+          section: meta?.section ?? '',
+          count: totals[id] ?? 0,
+          vetoed: vetoed.has(id),
+        }
+      })
+      .sort((a, b) => {
+        if (a.vetoed !== b.vetoed) return a.vetoed ? 1 : -1
+        if (a.count !== b.count) return b.count - a.count
+        return a.title.localeCompare(b.title)
+      })
+  }, [options, round])
 
   return (
     <div className="display-root">
@@ -75,7 +107,7 @@ if (round?.status === 'open' && startedAt && endTs) {
           )}
 
           {round?.status === 'closed' && (
-            <ClosedRound winnerTitle={winner?.title ?? '—'} />
+            <ClosedRound results={roundResults} />
           )}
         </div>
         {typeof (round as any)?.totalVotes === 'number' && (
@@ -120,11 +152,30 @@ function OpenRound({ msLeft, pct, categoryId, options }: { msLeft: number; pct: 
   )
 }
 
-function ClosedRound({ winnerTitle }: { winnerTitle: string }) {
+function ClosedRound({ results }: { results: { id: string; title: string; composer: string; section: string; vetoed: boolean }[] }) {
   return (
     <div className="center">
       <div className="headline">Uitslag ronde</div>
-      <div className="winner">🏆 {winnerTitle} 🏆</div>
+      {results.length === 0 && <div className="subtle">Nog geen uitslag beschikbaar.</div>}
+      {results.length > 0 && (
+        <div className="display-results-list">
+          {results.map((result) => (
+            <div key={result.id} className={`display-result-item ${result.vetoed ? 'is-vetoed' : ''}`}>
+              <div>
+                <strong>{result.title}</strong>
+                {(result.composer || result.section) && (
+                  <div className="subtle" style={{ marginTop: 4 }}>
+                    {result.composer}
+                    {result.composer && result.section ? ' · ' : ''}
+                    {result.section}
+                  </div>
+                )}
+              </div>
+              {result.vetoed && <span>VETO</span>}
+            </div>
+          ))}
+        </div>
+      )}
       <div className="subtle">Nieuwe ronde start zo</div>
     </div>
   )
