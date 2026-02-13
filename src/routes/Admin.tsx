@@ -319,7 +319,7 @@ async function closeRound() {
   // 3) ronde sluiten + resultaten *publiceren*
   const roundRef   = doc(db, `events/${EVENT_ID}/rounds/${round.id}`)
   await updateDoc(roundRef,   { status: 'closed', winnerOptionId, totals, totalVotes, vetoedOptionIds: Array.from(vetoed) })
-  await updateDoc(currentRef, { status: 'closed', winnerOptionId, totalVotes, vetoedOptionIds: Array.from(vetoed) }) // publiek leest deze
+  await updateDoc(currentRef, { status: 'closed', winnerOptionId, totals, totalVotes, vetoedOptionIds: Array.from(vetoed) }) // publiek leest deze
 
   // 4) winnaar markeren zodat hij verdwijnt in volgende ronde
   if (winnerOptionId) {

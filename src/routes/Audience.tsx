@@ -160,55 +160,88 @@ function ResultsPublic({
         </>
       )}
       {round?.status === 'closed' && (
-        <WinnerOnly
-          optionsAll={options}                         // alle opties, incl. winnaar
-          winnerOptionId={(round as any).winnerOptionId ?? null}
+        <RankedResults
+          optionsAll={options}
+          round={round}
         />
       )}
     </div>
   )
 
-  function WinnerOnly({
+
+  function RankedResults({
     optionsAll,
-    winnerOptionId,
+    round,
   }: {
-    optionsAll: { id: string; title: string; composer?: string; section?: string }[]
-    winnerOptionId: string | null
+    optionsAll: { id: string; title: string; composer?: string; section?: string; categoryId?: string }[]
+    round: Round
   }) {
-    const winner = winnerOptionId
-      ? optionsAll.find(o => o.id === winnerOptionId) ?? null
-      : null
+    const categoryId = String((round as any).categoryId ?? '')
+    const totals = ((round as any).totals ?? {}) as Record<string, number>
+    const vetoed = new Set<string>(((round as any).vetoedOptionIds ?? []) as string[])
+
+    const inCategory = optionsAll.filter((o) => {
+      const c = (o as any).categoryId || o.section
+      return String(c) === categoryId
+    })
+
+    const allIds = new Set<string>([
+      ...Object.keys(totals),
+      ...inCategory.map((o) => o.id),
+      ...Array.from(vetoed),
+    ])
+
+    const rows = Array.from(allIds)
+      .map((id) => {
+        const meta = optionsAll.find((o) => o.id === id)
+        return {
+          id,
+          title: meta?.title ?? id,
+          composer: meta?.composer ?? '',
+          section: meta?.section ?? '',
+          count: totals[id] ?? 0,
+          vetoed: vetoed.has(id),
+        }
+      })
+      .sort((a, b) => {
+        if (a.vetoed !== b.vetoed) return a.vetoed ? 1 : -1
+        if (a.count !== b.count) return b.count - a.count
+        return a.title.localeCompare(b.title)
+      })
 
     return (
       <div className="card">
         <h2 style={{ marginTop: 0 }}>Uitslag</h2>
 
-        {!winner && (
+        {rows.length === 0 && (
           <div className="small">
             De uitslag is nog niet bekend.
           </div>
         )}
 
-        {winner && (
-          <>
-            <div style={{ fontSize: '1.4rem', marginBottom: 6 }}>
-              🏆 <strong>{winner.title}</strong>
+        {rows.map((row) => (
+          <div key={row.id} className="row" style={{ marginBottom: 8, opacity: row.vetoed ? 0.7 : 1 }}>
+            <div>
+              <div><strong>{row.title}</strong></div>
+              {(row.composer || row.section) && (
+                <div className="small">
+                  {row.composer}
+                  {row.composer && row.section ? ' · ' : ''}
+                  {row.section}
+                </div>
+              )}
             </div>
-            {(winner.composer || winner.section) && (
-              <div className="small">
-                {winner.composer ?? ''}
-                {winner.composer && winner.section ? ' · ' : ''}
-                {winner.section ?? ''}
-              </div>
-            )}
-            <div className="small" style={{ marginTop: 10, opacity: 0.8 }}>
-              Bedankt voor het stemmen!
-            </div>
-          </>
-        )}
+            {row.vetoed && <div className="small">VETO</div>}
+          </div>
+        ))}
+
+        <div className="small" style={{ marginTop: 10, opacity: 0.8 }}>
+          Bedankt voor het stemmen!
+        </div>
       </div>
     )
   }
+
 
 
 }

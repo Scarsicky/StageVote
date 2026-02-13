@@ -207,3 +207,28 @@ input[type="password"] {
   margin-top: 8px;
   font-size: 1.1rem;
 }
+.display-results-list {
+  margin: 16px auto;
+  width: 100%;
+  max-width: 820px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.display-result-item {
+  width: 100%;
+  padding: 12px 16px;
+  border-radius: 14px;
+  background: #1a1a1a;
+  border: 1px solid #2a2a2a;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  text-align: left;
+}
+
+.display-result-item.is-vetoed {
+  border-color: #7d2b2b;
+  background: #2a1818;
+}
