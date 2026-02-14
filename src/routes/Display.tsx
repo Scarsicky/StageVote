@@ -157,6 +157,10 @@ function OpenRound({ msLeft, pct, categoryId, options }: { msLeft: number; pct: 
 }
 
 function ClosedRound({ results }: { results: { id: string; title: string; composer: string; section: string; vetoed: boolean }[] }) {
+  function getFontSize(index: number) {
+    const sizes = [3.2, 2.6, 2.2, 1.9, 1.7, 1.5]
+    return sizes[index] ?? 1.4
+  }
   return (
     <div className="center">
       <div className="headline">Uitslag ronde</div>
@@ -166,7 +170,9 @@ function ClosedRound({ results }: { results: { id: string; title: string; compos
           {results.map((result, index) => (
             <div key={result.id} className={`display-result-item ${result.vetoed ? 'is-vetoed' : ''}`}>
               <div>
-                <strong>{index + 1}. {result.title}</strong>
+                <strong style={{ fontSize: `${getFontSize(index)}rem`, lineHeight: 1.1, color: index === 0 ? '#f78f1e' : undefined }}>
+                  {index + 1}. {result.title}
+                  </strong>
                 {(result.composer) && (
                   <div className="subtle" style={{ marginTop: 4 }}>
                     {result.composer}
