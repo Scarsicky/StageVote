@@ -228,7 +228,7 @@ input[type="password"] {
   text-align: left;
 }
 
-.display-result-item.is-vetoed {
+/* .display-result-item.is-vetoed {
   border-color: #7d2b2b;
   background: #2a1818;
-}
+} */

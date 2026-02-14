@@ -163,19 +163,17 @@ function ClosedRound({ results }: { results: { id: string; title: string; compos
       {results.length === 0 && <div className="subtle">Nog geen uitslag beschikbaar.</div>}
       {results.length > 0 && (
         <div className="display-results-list">
-          {results.map((result) => (
+          {results.map((result, index) => (
             <div key={result.id} className={`display-result-item ${result.vetoed ? 'is-vetoed' : ''}`}>
               <div>
-                <strong>{result.title}</strong>
-                {(result.composer || result.section) && (
+                <strong>{index + 1}. {result.title}</strong>
+                {(result.composer) && (
                   <div className="subtle" style={{ marginTop: 4 }}>
                     {result.composer}
-                    {result.composer && result.section ? ' · ' : ''}
-                    {result.section}
                   </div>
                 )}
               </div>
-              {result.vetoed && <span>VETO</span>}
+              {/* {result.vetoed && <span>VETO</span>}*/}
             </div>
           ))}
         </div>

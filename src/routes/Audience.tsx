@@ -219,19 +219,17 @@ function ResultsPublic({
           </div>
         )}
 
-        {rows.map((row) => (
+        {rows.map((row, index) => (
           <div key={row.id} className="row" style={{ marginBottom: 8, opacity: row.vetoed ? 0.7 : 1 }}>
             <div>
-              <div><strong>{row.title}</strong></div>
-              {(row.composer || row.section) && (
+              <div><strong>{index + 1}. {row.title}</strong></div>
+              {(row.composer) && (
                 <div className="small">
                   {row.composer}
-                  {row.composer && row.section ? ' · ' : ''}
-                  {row.section}
                 </div>
               )}
             </div>
-            {row.vetoed && <div className="small">VETO</div>}
+           {/* {row.vetoed && <div className="small">VETO</div>} */}
           </div>
         ))}
 
