@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Oi&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Limelight&display=swap');
 
 html, body, #root { height: 100%; margin: 0; }
 body { overflow: hidden; }
@@ -23,7 +23,7 @@ h4,
 h5,
 h6,
 .headline {
-  font-family: 'Oi', system-ui, sans-serif;
+  font-family: 'Limelight', system-ui, sans-serif;
 }
 
 .container {
@@ -89,7 +89,7 @@ input[type="password"] {
   width: 100vw;
   min-height: 100vh;
   margin-left: calc(50% - 50vw);
-  background: #e30200;
+  background: #711324;
   color: #fff;
   display: flex;
   align-items: center;
@@ -196,6 +196,7 @@ input[type="password"] {
   line-height: 0.9;
   font-weight: 800;
   letter-spacing: -0.02em;
+  font-family: 'Limelight', system-ui, sans-serif;
 }
 
 .winner {
