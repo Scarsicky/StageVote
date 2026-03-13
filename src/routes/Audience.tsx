@@ -9,10 +9,18 @@ import type { Round } from '../types'
 
 
 const EVENT_ID = 'default'
+const COOKIE_NOTICE_KEY = 'audience_cookie_notice_ack'
 
 
 export default function Audience() {
 const deviceId = useDeviceId()
+const [cookieNoticeAccepted, setCookieNoticeAccepted] = useState(() => {
+  try {
+    return localStorage.getItem(COOKIE_NOTICE_KEY) === '1'
+  } catch {
+    return false
+  }
+})
 const [round, setRound] = useState<Round | null>(null)
 const options = useOptions(EVENT_ID)
 const voteOptions = useMemo(() => {
@@ -73,6 +81,15 @@ console.error('❌ Vote FAIL', err)
 }
 }
 
+function acceptCookieNotice() {
+  setCookieNoticeAccepted(true)
+  try {
+    localStorage.setItem(COOKIE_NOTICE_KEY, '1')
+  } catch {
+    // noop: in-memory state above keeps notification hidden for this session
+  }
+}
+
 function ResultsPublic({
   optionsAll,
   totals,
@@ -122,6 +139,18 @@ function ResultsPublic({
   return (
     <div>
       <h1>Stem mee</h1>
+
+      {!cookieNoticeAccepted && (
+        <div className="card" role="status" aria-live="polite">
+          <strong>Cookie-melding</strong>
+          <div className="small" style={{ marginTop: 6, marginBottom: 10 }}>
+            🎺 Deze jukebox gebruikt één technische cookie om jouw DeviceID te onthouden. 
+            Daarmee weten we dat jouw stem telt en blijft de spelshow eerlijk. 
+            Zonder deze opslag kun je helaas niet meestemmen.
+          </div>
+          <button onClick={acceptCookieNotice}>Begrepen</button>
+        </div>
+      )}
 
       {/* Geen actieve ronde */}
       {!round && <div className="card">Maak je klaar voor Soli's Spetterende Spelshow!</div>}
