@@ -24,5 +24,8 @@ Thumbs.db
 .idea/
 *.swp
 
+# private exports
+exports/
+
 # eigen docs
 Instructies.md
